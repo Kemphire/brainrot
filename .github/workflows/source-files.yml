@@ -2,6 +2,9 @@ name: Zip Source Files
 
 on: [push]
 
+permissions:
+  contents: write  # This gives write permission to the GITHUB_TOKEN
+
 jobs:
   zip-files:
     runs-on: ubuntu-latest
@@ -9,20 +12,16 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-      with:
-        # Ensure we have full history and can commit back to the repository
-        fetch-depth: 0
     
     - name: Zip C++ Source Files
       run: zip sscbs_analytics.zip **.cc **.cpp
     
-    - name: Configure Git
+    - name: Commit and Push Zip File
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         git config user.name github-actions
         git config user.email github-actions@github.com
-    
-    - name: Commit and Push Zip File
-      run: |
         git add sscbs_analytics.zip
         git commit -m "Auto-generate source code zip file"
         git push

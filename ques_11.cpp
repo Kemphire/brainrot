@@ -15,18 +15,30 @@ class Tree {
 public:
   Tree(Node *s_root) : tree_root(s_root) {}
 
-  void insert(Node *root, int val) {
+  Node *insert(Node *root, int val) {
     if (!root) {
       Node *to_insert = new Node(val);
-      root = to_insert;
-      return;
+      return to_insert;
     }
 
-    if (root->data > val) {
-      insert(root->left, val);
-    } else if (root->data < val) {
-      insert(root->right, val);
+    if (root->data >= val) {
+      root->left = insert(root->left, val);
+    } else {
+      root->right = insert(root->right, val);
     }
+    return root;
+  }
+
+  Node *find_node(Node *root, int val) {
+    Node *current = root;
+    while (current != nullptr && current->data != val) {
+      current = (val > current->data) ? current->right : current->left;
+    }
+    if (!current) {
+      std::cout << val << " not in tree\n";
+      return nullptr;
+    }
+    return current;
   }
 
   Node *min_node(Node *root) {
@@ -39,7 +51,7 @@ public:
 
   Node *delete_node(Node *root, int val) {
     if (!root) {
-      std::cout << "Tree is empty, there is nothing to remove\n";
+      std::cout << "Value is not present\n";
       return nullptr;
     }
     if (root->data > val) {
@@ -79,10 +91,51 @@ public:
       return nullptr;
     }
 
-    if (root->data > x) {
-      replace_x_with_y(root->left, x, y);
-    } else if (root->data < x) {
-      replace_x_with_y(root->right, x, y);
+    Node *x_node = find_node(root, x);
+    if (!x_node) {
+      std::cout << "X is not in the list\n";
+      return root;
     }
+
+    // root = delete_node(root, x_node->data);
+    // root = insert(root, y);
+
+    root = rebalance_from_node(root, x_node);
+    return root;
+  }
+
+  Node *rebalance_from_node(Node *root, Node *node) {
+    int value = node->data;
+
+    root = delete_node(root, value);
+    root = insert(root, value);
+
+    return root;
+  }
+
+  void preorder_traversal(Node *root) {
+    if (!root) {
+      return;
+    }
+    std::cout << root->data << " ";
+    preorder_traversal(root->left);
+    preorder_traversal(root->right);
+  }
+  void postorder_traversal(Node *root) {
+    if (!root) {
+      return;
+    }
+    std::cout << root->left->data << " ";
+    preorder_traversal(root->right->left);
+    preorder_traversal(root);
+  }
+
+  void inorder_traversal(Node *root) {
+    if (!root) {
+      return;
+    }
+    std::cout << root->left->data << " ";
+    preorder_traversal(root);
+    preorder_traversal(root->right);
   }
 };
