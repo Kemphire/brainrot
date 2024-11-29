@@ -22,9 +22,9 @@ public:
       return;
     }
 
-    if (root->data >= val) {
+    if (root->data > val) {
       insert(root->left, val);
-    } else {
+    } else if (root->data < val) {
       insert(root->right, val);
     }
   }
