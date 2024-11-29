@@ -87,18 +87,18 @@ public:
         x->front = root;
         root->back = x;
       } else {
-        std::cout << "No x in the list\n";
+        std::cout << "No y in the list\n";
         return;
       }
     } else {
       Node *current = root;
       do {
         current = current->front;
-      } while (current != y);
-      Node *new_front_of_x = current->front;
+      } while (current != y && current != nullptr);
+      Node *new_front_of_y = current->front;
       x->back = current;
       current->front = x;
-      x->front = new_front_of_x;
+      x->front = new_front_of_y;
     }
   }
 

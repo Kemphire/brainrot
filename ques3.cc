@@ -54,8 +54,10 @@ public:
     }
     Node *front = current->right;
     current->right = to_insert;
-    if (front)
+    if (front) {
       front->left = to_insert;
+      to_insert->right = front;
+    }
     to_insert->left = current;
     front->left = to_insert;
   }
