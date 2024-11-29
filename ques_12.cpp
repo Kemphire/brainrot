@@ -7,8 +7,10 @@ class Tree {
     int data;
     Node *right;
     Node *left;
+    int height;
     Node(int val) {
       data = val;
+      height = 0;
       right = left = nullptr;
     }
   };
@@ -27,6 +29,24 @@ public:
       root->left = insert(root->left, val);
     } else {
       root->right = insert(root->right, val);
+    }
+    root->height = height(root);
+
+    int balance = get_balance_factor(root);
+
+    if (balance > 1 && val < root->left->data) {
+      return right_rotation(root);
+    }
+    if (balance < -1 && val > root->left->data) {
+      return left_rotation(root);
+    }
+
+    if (balance > 1 && val > root->left->data) {
+      return left_right(root);
+    }
+
+    if (balance < -1 && val < root->left->data) {
+      return right_left(root);
     }
     return root;
   }
@@ -84,6 +104,28 @@ public:
 
       root->right = delete_node(root->right, minimum_node->data);
     }
+    root->height = std::max(height(root->left), height(root->right)) + 1;
+
+    // Get balance factor
+    int balance = get_balance_factor(root);
+
+    // Balance the tree if needed
+    if (balance > 1 && get_balance_factor(root->left) >= 0)
+      return right_rotation(root);
+
+    if (balance > 1 && get_balance_factor(root->left) < 0) {
+      root->left = left_rotation(root->left);
+      return right_rotation(root);
+    }
+
+    if (balance < -1 && get_balance_factor(root->right) <= 0)
+      return left_rotation(root);
+
+    if (balance < -1 && get_balance_factor(root->right) > 0) {
+      root->right = right_rotation(root->right);
+      return left_rotation(root);
+    }
+
     return root;
   }
 
@@ -102,14 +144,14 @@ public:
     // root = delete_node(root, x_node->data);
     // root = insert(root, y);
 
-    root = rebalance_from_node(root, x_node, y);
+    root = rebalance_from_node(root, x_node,y);
     return root;
   }
 
-  Node *rebalance_from_node(Node *root, Node *node, int value) {
-    int delete_value = node->data;
+  Node *rebalance_from_node(Node *root, Node *node,int value) {
+    int value_to_delete = node->data;
 
-    root = delete_node(root, delete_value);
+    root = delete_node(root,value_to_delete);
     root = insert(root, value);
 
     return root;
@@ -170,5 +212,44 @@ public:
     int right_height = height(root->right);
 
     return std::max(left_height, right_height) + 1;
+  }
+
+  Node *left_rotation(Node *x) {
+    Node *y = x->right;
+    Node *t2 = y->left;
+
+    y->left = x;
+    x->right = t2;
+
+    x->height = height(x);
+    y->height = height(y);
+
+    return y;
+  }
+
+  Node *right_rotation(Node *x) {
+    Node *y = x->left;
+    Node *t2 = y->right;
+
+    y->right = x;
+    x->left = t2;
+
+    x->height = height(x);
+    y->height = height(y);
+    return y;
+  }
+
+  Node *left_right(Node *x) {
+    x->left = left_rotation(x->left);
+    return right_rotation(x);
+  }
+
+  Node *right_left(Node *x) {
+    x->right = right_rotation(x->right);
+    return left_rotation(x);
+  }
+
+  int get_balance_factor(Node *x) {
+    return x ? height(x->left) - height(x->right) : 0;
   }
 };
