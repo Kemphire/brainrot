@@ -1,4 +1,6 @@
+#include <cmath>
 #include <iostream>
+#include <queue>
 
 class Tree {
   struct Node {
@@ -75,7 +77,7 @@ public:
         return temp;
       }
 
-      // for case we have tow child in the node
+      // For the case where the node has two children
       Node *minimum_node = min_node(root->right);
 
       root->data = minimum_node->data;
@@ -125,17 +127,48 @@ public:
     if (!root) {
       return;
     }
-    std::cout << root->left->data << " ";
-    preorder_traversal(root->right->left);
-    preorder_traversal(root);
+    postorder_traversal(root->left);
+    postorder_traversal(root->right);
+    std::cout << root->data << " ";
   }
 
   void inorder_traversal(Node *root) {
     if (!root) {
       return;
     }
-    std::cout << root->left->data << " ";
-    preorder_traversal(root);
-    preorder_traversal(root->right);
+    inorder_traversal(root->left);
+    std::cout << root->data << " ";
+    inorder_traversal(root->right);
+  }
+
+  void bfs_traversal() {
+    if (!tree_root) {
+      std::cout << "Our tree is empty\n";
+      return;
+    }
+    std::queue<Node *> q;
+    q.push(tree_root);
+
+    while (!q.empty()) {
+      Node *current = q.front();
+      q.pop();
+
+      std::cout << current->data << " ";
+      if (current->left)
+        q.push(current->left);
+      if (current->right)
+        q.push(current->right);
+    }
+    std::cout << std::endl;
+  }
+
+  int height(Node *root) {
+    if (!root) {
+      return -1;
+    }
+    int left_height = height(root->left);
+    int right_height = height(root->right);
+
+    return std::max(left_height, right_height) + 1;
   }
 };
