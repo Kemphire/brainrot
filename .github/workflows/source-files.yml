@@ -15,7 +15,7 @@ jobs:
     
     - name: Zip python/python notebook Source Files
       run: |
-        rm *zip
+        rm **zip
         zip sscbs_analytics.zip **.py **.ipynb
     
     - name: Commit and Push Zip File
