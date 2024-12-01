@@ -13,8 +13,8 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     
-    - name: Zip C++ Source Files
-      run: zip sscbs_analytics.zip **.cc **.cpp
+    - name: Zip python/python notebook Source Files
+      run: zip sscbs_analytics.zip **.py **.ipynb
     
     - name: Commit and Push Zip File
       env:
