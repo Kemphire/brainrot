@@ -17,7 +17,7 @@ jobs:
         run: |
           rm **zip
           zip sscbs_analytics.zip **.py **.ipynb
-          zip -r sscbs_analytics_cg.zip c_graphics/*.c c_graphics/3d_transformation/*.c
+          zip -r sscbs_analytics_cg.zip c_graphics/**.c c_graphics/3d_transformation/**.c
 
       - name: Commit and Push Zip File
         env:
