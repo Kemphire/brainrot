@@ -5,19 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Download analytics</title>
     <style>
-      .container {
-          display: flex;
-          justify-content: space-between;
-          width: 100%;
-          padding: 10px;
-          box-sizing: border-box;
+      .bottom-center-anchor {
+        position: fixed;
+        bottom: 20px; /* Adjusts distance from bottom */
+        left: 50%; /* Moves anchor to horizontal center */
+        transform: translateX(-50%); /* Centers precisely */
       }
+
+      			.container {
+      					display: flex;
+      					justify-content: space-between;
+      					width: 100%;
+      					padding: 10px;
+      					box-sizing: border-box;
+      			}
     </style>
   </head>
   <body>
     <div class="container">
       <a href="./sscbs_analytics.zip" download>Error 404</a>
       <a href="./sscbs_analytics_cg.zip" download>Error 504</a>
+    </div>
+    <div class="bottom-center-anchor">
+      <a href="./dhruv_python/sscbs_analytics_py_dhr.zip" download>Error 604</a>
     </div>
   </body>
 </html>

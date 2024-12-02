@@ -16,7 +16,10 @@ jobs:
       - name: Zip python/python notebook Source Files, and computer grahics practical
         run: |
           rm **zip
-          zip sscbs_analytics.zip **.py **.ipynb && zip -r sscbs_analytics_cg.zip c_graphics/**.c c_graphics/3d_transformation/**.c
+          zip sscbs_analytics.zip **.py **.ipynb
+          zip -r sscbs_analytics_cg.zip c_graphics/**.c c_graphics/3d_transformation/**.c
+          cd dhruv_python
+          zip sscbs_analytics_py_dhr.zip **.py 
 
       - name: Commit and Push Zip File
         env:
@@ -24,6 +27,6 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add sscbs_analytics.zip sscbs_analytics_cg.zip
+          git add sscbs_analytics.zip sscbs_analytics_cg.zip ./dhruv_python/sscbs_analytics_py_dhr.zip 
           git commit -m "Auto-generate source code zip file"
           git push
