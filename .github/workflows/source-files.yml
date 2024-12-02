@@ -16,8 +16,7 @@ jobs:
       - name: Zip python/python notebook Source Files, and computer grahics practical
         run: |
           rm **zip
-          zip sscbs_analytics.zip **.py **.ipynb
-          zip -r sscbs_analytics_cg.zip c_graphics/**.c c_graphics/3d_transformation/**.c
+          zip sscbs_analytics.zip **.py **.ipynb && zip -r sscbs_analytics_cg.zip c_graphics/**.c c_graphics/3d_transformation/**.c
 
       - name: Commit and Push Zip File
         env:
