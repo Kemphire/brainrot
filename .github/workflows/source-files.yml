@@ -26,6 +26,6 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add sscbs_analytics.zip sscbs_analytics_cg.zip ./dhruv_python/sscbs_analytics_py_dhr.zip
+          git add sscbs_analytics.zip ./dhruv_python/sscbs_analytics_py_dhr.zip
           git commit -m "Auto-generate source code zip file"
           git push
